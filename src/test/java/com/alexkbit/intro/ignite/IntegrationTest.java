@@ -9,9 +9,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Repository test.
- *
- * @author Aleksandr_Savchenko1
+ * Integration test.
  */
 @Target({ ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
