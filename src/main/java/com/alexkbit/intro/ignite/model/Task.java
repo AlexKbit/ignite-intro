@@ -4,6 +4,7 @@ import lombok.Data;
 import org.apache.ignite.cache.query.annotations.QuerySqlField;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * Task.
@@ -13,6 +14,9 @@ public class Task implements Serializable {
 
     @QuerySqlField(index = true)
     private String id;
+
+    @QuerySqlField(index = true)
+    private Date createdAt;
 
     @QuerySqlField
     private String expression;
@@ -25,4 +29,8 @@ public class Task implements Serializable {
 
     @QuerySqlField
     private String errorMsg;
+
+    public Task() {
+        this.createdAt = new Date();
+    }
 }

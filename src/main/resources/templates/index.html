@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html id="htmlId" data-ng-app="myApp" ng-controller="indexController">
+<head>
+    <meta content="chrome=1" http-equiv="X-UA-Compatible" />
+    <title>Ignite Task manager</title>
+    <link rel="shortcut icon" href="/images/ignite.png"/>
+    <link href="css/app.css" rel="stylesheet"/>
+    <link href="css/bootstrap.css" rel="stylesheet"/>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+</head>
+<body>
+
+<nav class="navbar navbar-default navbar-static-top">
+    <div class="container">
+        <div id="navbar" class="navbar-collapse ">
+            <ul class="nav text-center">
+                <li>
+                    <h2>Task manager for execute math expressions</h2>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div align="center">
+    <div class="container" align="center">
+        <form class="form-inline">
+            <label for="taskExp">Expression:</label>
+            <input id="taskExp" type="text" class="form-control" ng-model="expression"/>
+            <button type="submit" class="btn btn-primary" ng-click="startTask(expression)">Start</button>
+        </form>
+    </div>
+    <div>
+        <div class="tableContainer">
+            <div class="tableContainer" style="float:right">
+            </div>
+            <hr/>
+            <table class="table table-striped table-bordered table-hover list">
+                <thead>
+                <tr>
+                    <th>TaskId</th>
+                    <th>Expression</th>
+                    <th>Result</th>
+                    <th>Error</th>
+                    <th>Status</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr data-ng-repeat="task in tasks">
+                    <th>{{ task.id }}</th>
+                    <th>{{ task.expression }}</th>
+                    <th>{{ task.result }}</th>
+                    <th>{{ task.errorMsg }}</th>
+                    <th>{{ task.status }}</th>
+                    <th><button type="submit" class="btn btn-info" data-ng-click="stopTask(task.id)">Stop</button></th>
+                    <th><button type="submit" class="btn btn-danger" data-ng-click="deleteTask(task.id)">Delete</button></th>
+                </tr>
+                </tbody>
+            </table>
+            <uib-pagination total-items="totalItems" items-per-page="pageSize" ng-model="currentPage" ng-change="pageChanged()"></uib-pagination>
+            <hr/>
+        </div>
+    </div>
+    <hr />
+    <footer class="footer">
+        <h6></h6>
+    </footer>
+    <br />
+</div>
+
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.js"></script>
+<script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-1.3.2.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular-route.min.js"></script>
+<!-- Load app main script -->
+<script src="/js/app.js"></script>
+<!-- Load services -->
+<script src="/js/service/taskService.js"></script>
+<script src="/js/service/userService.js"></script>
+<!-- Load controllers -->
+<script src="/js/controller/indexController.js"></script>
+</body>
+</html>
