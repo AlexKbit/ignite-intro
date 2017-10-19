@@ -1,8 +1,11 @@
 package com.alexkbit.intro.ignite.config;
 
+import com.alexkbit.intro.ignite.service.ClusterExecuteService;
 import org.apache.ignite.Ignite;
 import org.apache.ignite.IgniteCheckedException;
+import org.apache.ignite.IgniteQueue;
 import org.apache.ignite.IgniteSpring;
+import org.apache.ignite.configuration.CollectionConfiguration;
 import org.apache.ignite.configuration.IgniteConfiguration;
 import org.apache.ignite.configuration.PersistentStoreConfiguration;
 import org.apache.ignite.spi.discovery.tcp.TcpDiscoverySpi;
@@ -77,6 +80,11 @@ public class IgniteConfig {
         }
         ignite.active(true);
         return ignite;
+    }
+
+    @Bean
+    public IgniteQueue<String> taskIdQueue(Ignite ignite) {
+        return ignite.queue(ClusterExecuteService.TASK_QUEUE, 0, new CollectionConfiguration());
     }
 
     private PersistentStoreConfiguration persistentStoreConfiguration() {
