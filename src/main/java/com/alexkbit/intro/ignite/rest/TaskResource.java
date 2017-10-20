@@ -65,8 +65,8 @@ public class TaskResource {
     @RequestMapping(method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public Page<Task> load(@RequestParam(name = "page") int page,
-                           @RequestParam(name = "count") int count){
+    public Page<Task> load(@RequestParam(name = "page", defaultValue = "0") int page,
+                           @RequestParam(name = "count", defaultValue = "10") int count){
         Page<Task> loadedPage = taskService.load(page, count);
         log.debug("Load {} tasks from page: {} with count {}", loadedPage.getSize(), page, count);
         return loadedPage;

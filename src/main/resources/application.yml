@@ -28,6 +28,10 @@ spring:
 
 ---
 spring:
+  profiles: cluster-test
+
+---
+spring:
   profiles: dev
 
 app.ignite:

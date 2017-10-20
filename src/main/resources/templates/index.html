@@ -39,6 +39,7 @@
                 <thead>
                 <tr>
                     <th>TaskId</th>
+                    <th>NodeId</th>
                     <th>Expression</th>
                     <th>Result</th>
                     <th>Error</th>
@@ -50,6 +51,7 @@
                 <tbody>
                 <tr data-ng-repeat="task in tasks">
                     <th>{{ task.id }}</th>
+                    <th>{{ task.nodeId }}</th>
                     <th>{{ task.expression }}</th>
                     <th>{{ task.result }}</th>
                     <th>{{ task.errorMsg }}</th>

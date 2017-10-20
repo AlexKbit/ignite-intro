@@ -1,7 +1,10 @@
 package com.alexkbit.intro.ignite.model;
 
+import com.alexkbit.intro.ignite.service.cluster.TaskCacheStore;
 import lombok.Data;
+import org.apache.ignite.Ignite;
 import org.apache.ignite.lang.IgniteCallable;
+import org.apache.ignite.resources.IgniteInstanceResource;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
@@ -16,6 +19,10 @@ public class Job implements IgniteCallable<String> {
 
     private static final String SCRIPT_ENGINE = "JavaScript";
 
+    @IgniteInstanceResource
+    private transient Ignite ignite;
+    private transient TaskCacheStore cacheStore;
+
     private String jobId;
     private String taskId;
     private String expression;
@@ -27,14 +34,19 @@ public class Job implements IgniteCallable<String> {
     }
 
     @Override
-    public String call() throws Exception {
-        ScriptEngineManager manager = new ScriptEngineManager();
-        ScriptEngine engine = manager.getEngineByName(SCRIPT_ENGINE);
+    public String call() {
+        cacheStore = new TaskCacheStore(ignite);
+        cacheStore.startProgress(taskId);
         try {
-            return engine.eval(expression).toString();
+            ScriptEngineManager manager = new ScriptEngineManager();
+            ScriptEngine engine = manager.getEngineByName(SCRIPT_ENGINE);
+            String result = engine.eval(expression).toString();
+            cacheStore.saveSuccess(taskId, result);
+            return result;
         } catch (ScriptException se) {
-            throw new IllegalArgumentException(se);
+            cacheStore.saveError(taskId, se.getMessage());
         }
+        return null;
     }
 
     public static Job build(Task task) {

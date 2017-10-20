@@ -14,16 +14,18 @@ public class TaskCacheStore implements Serializable {
 
     public static final String TASK_CACHE = "TaskCache";
 
-    private transient Ignite ignite;
+    private String igniteNodeId;
     private transient IgniteCache<String, Task> taskCache;
 
     public TaskCacheStore(Ignite ignite) {
+        igniteNodeId =  ignite.cluster().localNode().id().toString();
         taskCache = ignite.cache(TASK_CACHE);
     }
 
     public void startProgress(String taskId) {
         Task task = taskCache.get(taskId);
         task.setStatus(TaskStatus.IN_PROGRESS);
+        task.setNodeId(igniteNodeId);
         taskCache.put(taskId, task);
     }
 
