@@ -1,6 +1,7 @@
 package com.alexkbit.intro.ignite.service;
 
 import com.alexkbit.intro.ignite.IntegrationTest;
+import com.alexkbit.intro.ignite.model.Job;
 import com.alexkbit.intro.ignite.model.Task;
 import org.apache.ignite.IgniteQueue;
 import org.junit.Test;
@@ -26,16 +27,16 @@ public class TaskServiceTest {
     private TaskService taskService;
 
     @Autowired
-    private IgniteQueue<String> taskQueue;
+    private IgniteQueue<Job> jobQueue;
 
     @Test
-    public void shouldWork() {
-        int queueSize = taskQueue.size();
+    public void shouldWork() throws InterruptedException {
+        int queueSize = jobQueue.size();
         Task task = taskService.start("2+5");
         assertNotNull(task.getId());
         task = taskService.get(task.getId());
         assertNotNull(task);
-        assertEquals(queueSize + 1, taskQueue.size());
+        assertEquals(queueSize + 1, jobQueue.size());
     }
 
 }

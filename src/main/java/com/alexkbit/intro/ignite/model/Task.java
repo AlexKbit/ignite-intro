@@ -16,6 +16,9 @@ public class Task implements Serializable {
     private String id;
 
     @QuerySqlField(index = true)
+    private String nodeId;
+
+    @QuerySqlField(index = true)
     private Date createdAt;
 
     @QuerySqlField

@@ -1,5 +1,6 @@
 package com.alexkbit.intro.ignite.service;
 
+import com.alexkbit.intro.ignite.model.Job;
 import com.alexkbit.intro.ignite.model.Task;
 import com.alexkbit.intro.ignite.model.TaskStatus;
 import com.alexkbit.intro.ignite.repository.TaskRepository;
@@ -30,7 +31,7 @@ public class TaskService {
     private TaskRepository taskRepository;
 
     @Autowired
-    private IgniteQueue<String> taskQueue;
+    private IgniteQueue<Job> jobQueue;
 
     public Task start(String expression) {
         Task task = new Task();
@@ -38,7 +39,7 @@ public class TaskService {
         task.setStatus(TaskStatus.WAIT);
         task.setExpression(expression);
         task = taskRepository.save(task.getId(), task);
-        taskQueue.add(task.getId());
+        jobQueue.add(Job.build(task));
         return task;
     }
 
@@ -47,7 +48,7 @@ public class TaskService {
     }
 
     public void stop(String taskId) {
-        taskQueue.remove(taskId);
+        jobQueue.removeIf(job -> job.getTaskId().equalsIgnoreCase(taskId));
         Task task = taskRepository.findOne(taskId);
         if (task == null) {
             return;

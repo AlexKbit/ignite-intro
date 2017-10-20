@@ -1,6 +1,7 @@
 package com.alexkbit.intro.ignite.config;
 
-import com.alexkbit.intro.ignite.service.ClusterExecuteService;
+import com.alexkbit.intro.ignite.model.Job;
+import com.alexkbit.intro.ignite.service.cluster.ClusterExecuteService;
 import org.apache.ignite.Ignite;
 import org.apache.ignite.IgniteCheckedException;
 import org.apache.ignite.IgniteQueue;
@@ -60,11 +61,6 @@ public class IgniteConfig {
         icfg.setPeerClassLoadingEnabled(true);
         CacheInitializer.initCaches(icfg);
 
-        /*ServiceConfiguration serviceConfiguration = new ServiceConfiguration();
-        serviceConfiguration.setService(new ClusterExecuteService());
-        serviceConfiguration.setName(ClusterExecuteService.SERVICE_NAME);
-        icfg.setServiceConfiguration(serviceConfiguration);*/
-
         if (persistentActive) {
             icfg.setPersistentStoreConfiguration(persistentStoreConfiguration());
         }
@@ -83,8 +79,8 @@ public class IgniteConfig {
     }
 
     @Bean
-    public IgniteQueue<String> taskIdQueue(Ignite ignite) {
-        return ignite.queue(ClusterExecuteService.TASK_QUEUE, 0, new CollectionConfiguration());
+    public IgniteQueue<Job> jobQueue(Ignite ignite) {
+        return ignite.queue(ClusterExecuteService.JOB_QUEUE, 0, new CollectionConfiguration());
     }
 
     private PersistentStoreConfiguration persistentStoreConfiguration() {
