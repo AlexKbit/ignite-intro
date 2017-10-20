@@ -27,29 +27,31 @@ public class TaskResource {
     @RequestMapping(value = "/start", method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public void add(@RequestBody String expression) {
+    @ResponseBody
+    public Task start(@RequestBody String expression) {
         log.info("Start new task for expression: {}", expression);
-        taskService.start(expression);
+        return taskService.start(expression);
     }
 
     /**
      * Stop task.
      * @param taskId taskId
      */
-    @RequestMapping(value = "/stop", method = RequestMethod.GET)
+    @RequestMapping(value = "/stop/{taskId}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
-    public void stop(@RequestParam(name = "taskId") String taskId){
+    @ResponseBody
+    public boolean stop(@PathVariable("taskId") String taskId){
         log.info("Stop task with id: {}", taskId);
-        taskService.stop(taskId);
+        return taskService.stop(taskId);
     }
 
     /**
      * Remove task.
      * @param taskId taskId
      */
-    @RequestMapping(method = RequestMethod.DELETE)
+    @RequestMapping(value = "/{taskId}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.OK)
-    public void remove(@RequestParam(name = "taskId") String taskId){
+    public void remove(@PathVariable("taskId") String taskId){
         log.info("Remove task with id: {}", taskId);
         taskService.remove(taskId);
     }

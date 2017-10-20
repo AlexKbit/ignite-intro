@@ -33,7 +33,7 @@ App.factory('TaskService', ['$http', '$q', function($http, $q){
         },
 
         stopTask: function(taskId){
-            return $http.get(HOST + '/stop?taskId=' + taskId)
+            return $http.get(HOST + '/stop/' + taskId)
                 .then(
                     function(response){
                         return response.data;
@@ -46,7 +46,7 @@ App.factory('TaskService', ['$http', '$q', function($http, $q){
         },
 
         deleteTask: function(taskId){
-            return $http.delete(HOST +'?taskId=' + taskId)
+            return $http.delete(HOST +'/' + taskId)
                 .then(
                     function(response){
                         return response.data;

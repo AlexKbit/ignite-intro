@@ -47,14 +47,14 @@ public class TaskService {
         return taskRepository.findOne(taskId);
     }
 
-    public void stop(String taskId) {
-        jobQueue.removeIf(job -> job.getTaskId().equalsIgnoreCase(taskId));
+    public boolean stop(String taskId) {
         Task task = taskRepository.findOne(taskId);
-        if (task == null) {
-            return;
+        if (task == null || !jobQueue.removeIf(job -> job.getTaskId().equalsIgnoreCase(taskId))) {
+            return false;
         }
         task.setStatus(TaskStatus.STOPPED);
         taskRepository.save(task.getId(), task);
+        return true;
     }
     public void remove(String taskId) {
         taskRepository.delete(taskId);
