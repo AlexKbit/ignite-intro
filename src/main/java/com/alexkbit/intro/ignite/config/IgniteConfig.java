@@ -2,11 +2,9 @@ package com.alexkbit.intro.ignite.config;
 
 import com.alexkbit.intro.ignite.model.Job;
 import com.alexkbit.intro.ignite.service.cluster.ClusterExecuteService;
-import com.alexkbit.intro.ignite.service.cluster.ClusterExecuteServiceImpl;
 import org.apache.ignite.Ignite;
 import org.apache.ignite.IgniteCheckedException;
 import org.apache.ignite.IgniteQueue;
-import org.apache.ignite.IgniteServices;
 import org.apache.ignite.IgniteSpring;
 import org.apache.ignite.configuration.CollectionConfiguration;
 import org.apache.ignite.configuration.IgniteConfiguration;
@@ -19,7 +17,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 
 import java.util.List;
 
@@ -81,17 +78,7 @@ public class IgniteConfig {
 
     @Bean
     public IgniteQueue<Job> jobQueue(Ignite ignite) {
-        return ignite.queue(ClusterExecuteServiceImpl.JOB_QUEUE, 0, new CollectionConfiguration());
-    }
-
-    @Bean
-    @Profile("!test")
-    public ClusterExecuteService executeService(Ignite ignite) {
-        IgniteServices services = ignite.services();
-        if (services.service(ClusterExecuteServiceImpl.SERVICE_NAME) == null) {
-            services.deployClusterSingleton(ClusterExecuteServiceImpl.SERVICE_NAME, new ClusterExecuteServiceImpl());
-        }
-        return services.serviceProxy(ClusterExecuteServiceImpl.SERVICE_NAME, ClusterExecuteService.class, true);
+        return ignite.queue(ClusterExecuteService.JOB_QUEUE, 0, new CollectionConfiguration());
     }
 
     private PersistentStoreConfiguration persistentStoreConfiguration() {

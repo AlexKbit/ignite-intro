@@ -65,11 +65,15 @@
             <hr/>
         </div>
     </div>
-    <hr />
     <footer class="footer">
-        <h6></h6>
+        <div data-ng-repeat="(key, value) in statNodes">
+            <h6>Node: {{ key }} Count: {{ value }}</h6>
+        </div>
+        <div data-ng-repeat="(key, value) in statStatus">
+            <h6 >Status: {{ key }} Count: {{ value }}</h6>
+        </div>
     </footer>
-    <br />
+    <hr />
 </div>
 
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.js"></script>
@@ -79,7 +83,7 @@
 <script src="/js/app.js"></script>
 <!-- Load services -->
 <script src="/js/service/taskService.js"></script>
-<script src="/js/service/userService.js"></script>
+<script src="/js/service/statisticsService.js"></script>
 <!-- Load controllers -->
 <script src="/js/controller/indexController.js"></script>
 </body>

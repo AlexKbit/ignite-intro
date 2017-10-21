@@ -1,13 +1,16 @@
 'use strict';
 
-App.controller('indexController', ['$scope', 'TaskService', '$interval', function($scope, TaskService, $interval) {
+App.controller('indexController', ['$scope', 'TaskService', 'StatisticsService', '$interval', function($scope, TaskService, StatisticsService, $interval) {
 
-    $scope.pageSize = 10;
+    $scope.pageSize = 8;
     $scope.currentPage = 1;
 
     $scope.totalItems = 1;
     $scope.totalPages = 1;
     $scope.tasks = [];
+
+    $scope.statNodes = {};
+    $scope.statStatus = {};
 
     $scope.startTask = function (expression) {
         TaskService.createTask(expression).then(function (results) {
@@ -54,7 +57,27 @@ App.controller('indexController', ['$scope', 'TaskService', '$interval', functio
         });
     };
 
+    var loadNodeStat = function () {
+        StatisticsService.getNodeStat().then(function (result) {
+            console.log(result);
+            $scope.statNodes = result;
+        }, function (error) {
+            console.log(error.message);
+        });
+    };
+
+    var loadStatusStat = function () {
+        StatisticsService.getStatusStat().then(function (result) {
+            console.log(result);
+            $scope.statStatus = result;
+        }, function (error) {
+            console.log(error.message);
+        });
+    };
+
     loadPages();
+    loadNodeStat();
+    loadStatusStat();
 
     $scope.setPage = function (pageNo) {
         $scope.currentPage = pageNo;
@@ -62,6 +85,8 @@ App.controller('indexController', ['$scope', 'TaskService', '$interval', functio
 
     $scope.pageChanged = function () {
         loadPages();
+        loadNodeStat();
+        loadStatusStat();
     };
 
     $scope.reloadRoute = function () {

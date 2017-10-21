@@ -8,14 +8,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.data.domain.Page;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  * Test for {@link TaskService}.
@@ -25,9 +21,6 @@ import static org.junit.Assert.assertTrue;
 public class TaskServiceTest {
 
     private static final String EXPRESSION = "2+5";
-
-    @Autowired
-    private ApplicationContext context;
 
     @Autowired
     private TaskService taskService;
@@ -41,7 +34,7 @@ public class TaskServiceTest {
     }
 
     @Test
-    public void shouldStart() throws InterruptedException {
+    public void shouldStart() {
         int queueSize = jobQueue.size();
         Task task = taskService.start(EXPRESSION);
         assertNotNull(task.getId());
@@ -51,7 +44,7 @@ public class TaskServiceTest {
     }
 
     @Test
-    public void shouldStop() throws InterruptedException {
+    public void shouldStop() {
         Task task = taskService.start(EXPRESSION);
         int queueSize = jobQueue.size();
         boolean result = taskService.stop(task.getId());
@@ -60,7 +53,7 @@ public class TaskServiceTest {
     }
 
     @Test
-    public void shouldNotStop() throws InterruptedException {
+    public void shouldNotStop() {
         Task task = taskService.start(EXPRESSION);
         jobQueue.poll();
         int queueSize = jobQueue.size();
@@ -70,7 +63,7 @@ public class TaskServiceTest {
     }
 
     @Test
-    public void shouldLoadAll() throws InterruptedException {
+    public void shouldLoadAll() {
         taskService.start(EXPRESSION);
         Page page = taskService.load(0, 1);
         assertEquals(1, page.getSize());
@@ -78,7 +71,7 @@ public class TaskServiceTest {
     }
 
     @Test
-    public void shouldLoadSecondPage() throws InterruptedException {
+    public void shouldLoadSecondPage() {
         taskService.start(EXPRESSION);
         Page page = taskService.load(1, 1);
         assertEquals(1, page.getNumber());

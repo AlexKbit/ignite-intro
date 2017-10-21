@@ -12,19 +12,15 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Service for {@link Task}.
  */
 @Slf4j
 @Service
-@Transactional
+//@Transactional
 public class TaskService {
 
     @Autowired
@@ -61,15 +57,7 @@ public class TaskService {
 
     public Page<Task> load(int page, int count) {
         Pageable pageable = new PageRequest(page, count);
-        Iterator<Task> iterator = taskRepository.findAll().iterator();
-        int skip = page * count;
-        while (skip-- > 0 && iterator.hasNext()) {
-            iterator.next();
-        }
-        List<Task> tasks = new ArrayList<>(count);
-        for (int i = 0; i < count && iterator.hasNext(); i++) {
-            tasks.add(iterator.next());
-        }
+        List<Task> tasks = taskRepository.findAllOrderByCreatedAt(pageable);
         return new PageImpl<>(tasks, pageable, taskRepository.count());
     }
 }

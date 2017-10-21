@@ -1,7 +1,5 @@
 package com.alexkbit.intro.ignite.service.cluster;
 
-import static org.junit.Assert.*;
-
 import com.alexkbit.intro.ignite.ClusterTest;
 import com.alexkbit.intro.ignite.model.Task;
 import com.alexkbit.intro.ignite.model.TaskStatus;
@@ -12,18 +10,18 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 /**
- * @author Aleksandr_Savchenko1
+ * Test for {@link ClusterExecuteService}.
  */
 @ClusterTest
 @RunWith(SpringJUnit4ClassRunner.class)
-public class ClusterExecuteServiceImplTest {
+public class ClusterExecuteServiceTest {
 
     @Autowired
     private TaskService taskService;
-
-    @Autowired
-    private ClusterExecuteService executeService;
 
     @Test
     @Ignore
