@@ -37,12 +37,12 @@ public class IgniteConfig {
     private String persistentPath;
 
     @Value("#{'${app.ignite.cluster.addresses}'.split(',')}")
-    private List<String> clusterAdresses;
+    private List<String> clusterAddresses;
 
     @Bean
     public TcpDiscoveryVmIpFinder tcpDiscoveryVmIpFinder() {
         TcpDiscoveryVmIpFinder tcpDiscoveryVmIpFinder = new TcpDiscoveryVmIpFinder(true);
-        tcpDiscoveryVmIpFinder.setAddresses(clusterAdresses);
+        tcpDiscoveryVmIpFinder.setAddresses(clusterAddresses);
         return tcpDiscoveryVmIpFinder;
     }
 
