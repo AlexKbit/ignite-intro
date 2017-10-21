@@ -35,7 +35,6 @@ public class TaskService {
 
     public Task start(String expression) {
         Task task = new Task();
-        task.setId(UUID.randomUUID().toString());
         task.setStatus(TaskStatus.WAIT);
         task.setExpression(expression);
         task = taskRepository.save(task.getId(), task);

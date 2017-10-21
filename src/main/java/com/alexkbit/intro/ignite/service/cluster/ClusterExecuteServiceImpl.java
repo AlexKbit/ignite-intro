@@ -51,8 +51,8 @@ public class ClusterExecuteServiceImpl implements ClusterExecuteService {
     private void executeJob(Job job) {
         try {
             log.debug(String.format("Start execution job[%s] for task[%s]", job.getJobId(), job.getTaskId()));
-            IgniteFuture<String> future = ignite.compute().callAsync(job);
-            future.listen(t -> log.debug(String.format("End execution job[%s] for task[%s]", job.getJobId(), job.getTaskId())));
+            ignite.compute().callAsync(job)
+                    .listen(t -> log.debug(String.format("End execution job[%s] for task[%s]", job.getJobId(), job.getTaskId())));
         } catch (Exception e) {
             cacheStore.saveError(job.getTaskId(), e.getMessage());
         }

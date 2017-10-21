@@ -5,6 +5,7 @@ import org.apache.ignite.cache.query.annotations.QuerySqlField;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * Task.
@@ -34,6 +35,7 @@ public class Task implements Serializable {
     private String errorMsg;
 
     public Task() {
+        this.setId(UUID.randomUUID().toString());
         this.createdAt = new Date();
     }
 }
