@@ -2,14 +2,13 @@ package com.alexkbit.intro.ignite.service;
 
 import com.alexkbit.intro.ignite.IntegrationTest;
 import com.alexkbit.intro.ignite.model.TaskStatus;
+import com.alexkbit.intro.ignite.service.cluster.TaskCacheStore;
 import org.apache.ignite.Ignite;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.transaction.support.TransactionTemplate;
 
 import static org.junit.Assert.assertEquals;
 
@@ -26,9 +25,6 @@ public class StatisticsServiceTest {
     private Ignite ignite;
 
     @Autowired
-    private TransactionTemplate tx;
-
-    @Autowired
     private TaskService taskService;
 
     @Autowired
@@ -42,10 +38,9 @@ public class StatisticsServiceTest {
     }
 
     @Test
-    @Ignore
     public void shouldGetNodeStat() {
         int oldCount = statisticsService.getNodeStat().get(localNodeId);
-        taskService.start(EXPRESSION);
+        new TaskCacheStore(ignite).startProgress(taskService.start(EXPRESSION).getId());
         int newCount = statisticsService.getNodeStat().get(localNodeId);
         assertEquals(oldCount + 1, newCount);
     }

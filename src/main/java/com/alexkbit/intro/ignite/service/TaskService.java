@@ -20,7 +20,6 @@ import java.util.List;
  */
 @Slf4j
 @Service
-//@Transactional
 public class TaskService {
 
     @Autowired

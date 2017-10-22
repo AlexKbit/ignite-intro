@@ -1,12 +1,14 @@
 package com.alexkbit.intro.ignite.service.cluster;
 
 import com.alexkbit.intro.ignite.model.Job;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ignite.Ignite;
 import org.apache.ignite.IgniteQueue;
 import org.apache.ignite.cluster.ClusterMetrics;
 import org.apache.ignite.cluster.ClusterNode;
 import org.apache.ignite.configuration.CollectionConfiguration;
+import org.apache.ignite.lang.IgniteFuture;
 import org.apache.ignite.resources.IgniteInstanceResource;
 import org.apache.ignite.services.Service;
 import org.apache.ignite.services.ServiceContext;
@@ -15,6 +17,7 @@ import org.apache.ignite.services.ServiceContext;
  * Cluster service for execute tasks.
  */
 @Slf4j
+@NoArgsConstructor
 public class ClusterExecuteService implements Service {
 
     public static final String JOB_QUEUE = "JOB_QUEUE";
@@ -24,6 +27,10 @@ public class ClusterExecuteService implements Service {
     private transient Ignite ignite;
     private transient IgniteQueue<Job> jobQueue;
     private transient TaskCacheStore cacheStore;
+
+    public ClusterExecuteService(Ignite ignite) {
+        this.ignite = ignite;
+    }
 
     @Override
     public void cancel(ServiceContext ctx) {
@@ -42,20 +49,23 @@ public class ClusterExecuteService implements Service {
         }
     }
 
-    public void execute() {
+    public IgniteFuture<String> execute() {
         if (freeThreadExists() && !jobQueue.isEmpty()) {
-            executeJob(jobQueue.poll());
+            return executeJob(jobQueue.poll());
         }
+        return null;
     }
 
-    private void executeJob(Job job) {
+    private IgniteFuture<String> executeJob(Job job) {
         try {
             log.debug(String.format("Start execution job[%s] for task[%s]", job.getJobId(), job.getTaskId()));
-            ignite.compute().callAsync(job)
-                    .listen(t -> log.debug(String.format("End execution job[%s] for task[%s]", job.getJobId(), job.getTaskId())));
+            IgniteFuture<String> future = ignite.compute().callAsync(job);
+            future.listen(t -> log.debug(String.format("End execution job[%s] for task[%s]", job.getJobId(), job.getTaskId())));
+            return future;
         } catch (Exception e) {
             cacheStore.saveError(job.getTaskId(), e.getMessage());
         }
+        return null;
     }
 
     private boolean freeThreadExists() {

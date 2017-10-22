@@ -88,6 +88,7 @@
                     <excludes>
                         <exclude>**/config/**/*</exclude>
                         <exclude>**/model/**/*</exclude>
+                        <exclude>**/ApplicationLauncher.*</exclude>
                     </excludes>
                 </configuration>
                 <executions>
