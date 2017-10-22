@@ -1,1 +1,1 @@
-web: java -Dserver.port=$PORT -Dspring.profiles.active=dev $JAVA_OPTS -jar target/ignite-intro-*.jar
+web: java -Dserver.port=$PORT -Dspring.profiles.active=local $JAVA_OPTS -jar target/ignite-intro-*.jar
