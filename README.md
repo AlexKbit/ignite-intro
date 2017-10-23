@@ -1,6 +1,5 @@
 [![Build Status](https://travis-ci.org/AlexKbit/ignite-task-manager.svg?branch=master)](https://travis-ci.org/AlexKbit/ignite-intro)
-[![codecov.io](https://codecov.io/github/AlexKbit/ignite-task-manager/coverage.svg?branch=master)](https://codecov.io/gh/AlexKbit/ignite-intro?branch=develop)
-
+[![codecov](https://codecov.io/gh/AlexKbit/ignite-task-manager/branch/develop/graph/badge.svg)](https://codecov.io/gh/AlexKbit/ignite-task-manager)
 # Project Overview #
 
 Simple project for solve of mathematical expressions with using Apache Ignite.
