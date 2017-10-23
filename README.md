@@ -1,5 +1,5 @@
-[![Build Status](https://travis-ci.org/AlexKbit/ignite-intro.svg?branch=develop)](https://travis-ci.org/AlexKbit/ignite-intro)
-[![codecov.io](https://codecov.io/github/AlexKbit/ignite-intro/coverage.svg?branch=develop)](https://codecov.io/gh/AlexKbit/ignite-intro?branch=develop)
+[![Build Status](https://travis-ci.org/AlexKbit/ignite-task-manager.svg?branch=master)](https://travis-ci.org/AlexKbit/ignite-intro)
+[![codecov.io](https://codecov.io/github/AlexKbit/ignite-task-manager/coverage.svg?branch=master)](https://codecov.io/gh/AlexKbit/ignite-intro?branch=develop)
 
 # Project Overview #
 
