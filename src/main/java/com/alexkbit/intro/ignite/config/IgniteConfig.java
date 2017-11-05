@@ -1,11 +1,14 @@
 package com.alexkbit.intro.ignite.config;
 
 import com.alexkbit.intro.ignite.model.Job;
+import com.alexkbit.intro.ignite.model.Task;
 import com.alexkbit.intro.ignite.service.cluster.ClusterExecuteService;
 import org.apache.ignite.Ignite;
 import org.apache.ignite.IgniteCheckedException;
 import org.apache.ignite.IgniteQueue;
 import org.apache.ignite.IgniteSpring;
+import org.apache.ignite.cache.CacheMode;
+import org.apache.ignite.configuration.CacheConfiguration;
 import org.apache.ignite.configuration.CollectionConfiguration;
 import org.apache.ignite.configuration.IgniteConfiguration;
 import org.apache.ignite.configuration.PersistentStoreConfiguration;
@@ -57,7 +60,7 @@ public class IgniteConfig {
     public IgniteConfiguration igniteCfg(TcpDiscoverySpi tcpDiscoverySpi) {
         IgniteConfiguration icfg = new IgniteConfiguration();
         icfg.setPeerClassLoadingEnabled(true);
-        CacheInitializer.initCaches(icfg);
+        initCaches(icfg);
 
         if (persistentActive) {
             icfg.setPersistentStoreConfiguration(persistentStoreConfiguration());
@@ -79,6 +82,13 @@ public class IgniteConfig {
     @Bean
     public IgniteQueue<Job> jobQueue(Ignite ignite) {
         return ignite.queue(ClusterExecuteService.JOB_QUEUE, 0, new CollectionConfiguration());
+    }
+
+    public void initCaches(IgniteConfiguration configuration) {
+        CacheConfiguration taskCache = new CacheConfiguration("TaskCache");
+        taskCache.setIndexedTypes(String.class, Task.class);
+        taskCache.setCacheMode(CacheMode.REPLICATED);
+        configuration.setCacheConfiguration(taskCache);
     }
 
     private PersistentStoreConfiguration persistentStoreConfiguration() {
