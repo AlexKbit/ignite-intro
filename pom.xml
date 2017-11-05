@@ -6,7 +6,7 @@
 
     <groupId>com.alexkbit.intro</groupId>
     <artifactId>ignite-intro</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.2</version>
     <name>Ignite Task manager</name>
 
     <parent>
