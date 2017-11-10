@@ -84,10 +84,10 @@ public class IgniteConfig {
         return ignite.queue(ClusterExecuteService.JOB_QUEUE, 0, new CollectionConfiguration());
     }
 
-    public void initCaches(IgniteConfiguration configuration) {
+    private void initCaches(IgniteConfiguration configuration) {
         CacheConfiguration taskCache = new CacheConfiguration("TaskCache");
         taskCache.setIndexedTypes(String.class, Task.class);
-        taskCache.setCacheMode(CacheMode.REPLICATED);
+        taskCache.setCacheMode(CacheMode.PARTITIONED);
         configuration.setCacheConfiguration(taskCache);
     }
 

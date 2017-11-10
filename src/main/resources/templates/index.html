@@ -60,6 +60,9 @@
                 </tbody>
             </table>
             <uib-pagination total-items="totalItems" items-per-page="pageSize" ng-model="currentPage" ng-change="pageChanged()"></uib-pagination>
+            <div>
+                <p data-ng-app="totalItems"> Total items: {{ totalItems }}</p>
+            </div>
             <hr/>
         </div>
     </div>
