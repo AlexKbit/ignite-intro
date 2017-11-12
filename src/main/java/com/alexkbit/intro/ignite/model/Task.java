@@ -16,22 +16,19 @@ public class Task implements Serializable {
     @QuerySqlField(index = true)
     private String id;
 
-    @QuerySqlField(index = true)
+    @QuerySqlField
     private String nodeId;
 
     @QuerySqlField(index = true)
     private Date createdAt;
 
-    @QuerySqlField
     private String expression;
 
-    @QuerySqlField
     private String result;
 
-    @QuerySqlField(index = true)
+    @QuerySqlField
     private TaskStatus status;
 
-    @QuerySqlField
     private String errorMsg;
 
     public Task() {
