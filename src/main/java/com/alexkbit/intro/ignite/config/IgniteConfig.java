@@ -82,8 +82,7 @@ public class IgniteConfig {
     @Bean
     public IgniteQueue<Job> jobQueue(Ignite ignite) {
         CollectionConfiguration colCfg = new CollectionConfiguration();
-        colCfg.setCacheMode(CacheMode.LOCAL);
-        colCfg.setBackups(1);
+        colCfg.setCacheMode(CacheMode.REPLICATED);
         return ignite.queue(ClusterExecuteService.JOB_QUEUE, 0, colCfg);
     }
 

@@ -40,8 +40,7 @@ public class ClusterExecuteService implements Service {
     @Override
     public void init(ServiceContext ctx) throws Exception {
         CollectionConfiguration colCfg = new CollectionConfiguration();
-        colCfg.setCacheMode(CacheMode.LOCAL);
-        colCfg.setBackups(1);
+        colCfg.setCacheMode(CacheMode.REPLICATED);
         jobQueue = ignite.queue(ClusterExecuteService.JOB_QUEUE, 0, colCfg);
         cacheStore = new TaskCacheStore(ignite);
     }
