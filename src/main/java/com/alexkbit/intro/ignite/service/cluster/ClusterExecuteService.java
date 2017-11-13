@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ignite.Ignite;
 import org.apache.ignite.IgniteQueue;
+import org.apache.ignite.cache.CacheMode;
 import org.apache.ignite.cluster.ClusterMetrics;
 import org.apache.ignite.cluster.ClusterNode;
 import org.apache.ignite.configuration.CollectionConfiguration;
@@ -38,7 +39,10 @@ public class ClusterExecuteService implements Service {
 
     @Override
     public void init(ServiceContext ctx) throws Exception {
-        jobQueue = ignite.queue(ClusterExecuteService.JOB_QUEUE, 0, new CollectionConfiguration());
+        CollectionConfiguration colCfg = new CollectionConfiguration();
+        colCfg.setCacheMode(CacheMode.LOCAL);
+        colCfg.setBackups(1);
+        jobQueue = ignite.queue(ClusterExecuteService.JOB_QUEUE, 0, colCfg);
         cacheStore = new TaskCacheStore(ignite);
     }
 

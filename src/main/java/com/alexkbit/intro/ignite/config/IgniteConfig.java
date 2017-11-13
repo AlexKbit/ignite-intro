@@ -81,7 +81,10 @@ public class IgniteConfig {
 
     @Bean
     public IgniteQueue<Job> jobQueue(Ignite ignite) {
-        return ignite.queue(ClusterExecuteService.JOB_QUEUE, 0, new CollectionConfiguration());
+        CollectionConfiguration colCfg = new CollectionConfiguration();
+        colCfg.setCacheMode(CacheMode.LOCAL);
+        colCfg.setBackups(1);
+        return ignite.queue(ClusterExecuteService.JOB_QUEUE, 0, colCfg);
     }
 
     private void initCaches(IgniteConfiguration configuration) {
