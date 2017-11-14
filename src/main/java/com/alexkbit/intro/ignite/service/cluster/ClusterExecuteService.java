@@ -60,6 +60,9 @@ public class ClusterExecuteService implements Service {
     }
 
     private IgniteFuture<String> executeJob(Job job) {
+        if (job == null) {
+            return null;
+        }
         try {
             log.debug(String.format("Start execution job[%s] for task[%s]", job.getJobId(), job.getTaskId()));
             IgniteFuture<String> future = ignite.compute().callAsync(job);
