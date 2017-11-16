@@ -87,7 +87,7 @@ public class IgniteConfig {
     }
 
     private void initCaches(IgniteConfiguration configuration) {
-        CacheConfiguration taskCache = new CacheConfiguration("TaskCache");
+        CacheConfiguration<String, Task> taskCache = new CacheConfiguration<>("TaskCache");
         taskCache.setIndexedTypes(String.class, Task.class);
         taskCache.setCacheMode(CacheMode.PARTITIONED);
         configuration.setCacheConfiguration(taskCache);
